@@ -22,7 +22,7 @@ app.listen(PORT, () => {
 
 app.get('/freelancers', async (req, res) => {
   try {
-    const freelancers = await Freelancer.find();
+    const freelancers = await Freelancer.find({ role: 'freelancer' });
     res.json(freelancers);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -126,9 +126,8 @@ app.post('/api/auth/login', async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
-    res.json({ freelancer: user, role: user.role });
+    res.json({ freelancer: user, userType: user.role });
   } catch (error) {
     res.status(500).json({ error: 'Server error: ' + error.message });
   }
 });
-
